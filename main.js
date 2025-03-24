@@ -18,6 +18,9 @@ function draw() {
         case "play":
             game.play();
             break;
+        case "event":
+            game.event();
+            break;
     }
 }
 
