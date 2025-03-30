@@ -23,7 +23,7 @@ function draw() {
             game.play();
             break;
         case "event":
-            game.event();
+            game.playEvent();
             break;
     }
 }

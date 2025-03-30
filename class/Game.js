@@ -3,6 +3,8 @@ class Game {
 
     constructor() {
         this.state = "menu";
+        this.money = 10;
+        this.event = "";
         this.pointOfInterest = [];
         this.numberOfPoints = NUMBER_OF_POINTS;
         this.fuel = 10;
@@ -31,6 +33,7 @@ class Game {
             end
         ];
     
+        // generate points of interest
         for (let i = 0; i < this.numberOfPoints; i++) {
             let x = random(50, width - 50);
             let y = random(100, height - 50);
@@ -89,6 +92,10 @@ class Game {
             this.state = "generating";
             return;
         }
+
+        // adds event to the map
+        this.addEvents();       
+
         this.state = "play";
     }
 
@@ -106,7 +113,7 @@ class Game {
 
         // HUD
         new InfoBox(0, 0, 200, 50, "Fuel: " + this.fuel).show();
-        new InfoBox(200, 0, 200, 50, "Money: " + this.numberOfPoints).show();
+        new InfoBox(200, 0, 200, 50, "Money: " + this.money).show();
     
         // Regenerate button
         this.buttonRegenerate.show();
@@ -126,18 +133,33 @@ class Game {
         }
     }
 
-    event() {
-        background(100, 0, 0);
-        fill(255);
-        textSize(30);
-        textAlign(CENTER, CENTER);
-        text("You have been attacked by space pirates!", width / 2, height / 2);
+    playEvent() {
+
+
+        switch(this.event) {
+            case "shop":
+                this.shopEvent();
+                break;
+            case "pirate":
+                this.pirateEvent();
+                break;
+            case "lucky":
+                this.luckyEvent();
+                break;
+            case "?":
+            case "wait":
+                // wait for user to click
+                let resumeButton = new Button(width / 2 - 50, height / 2 + 50, 100, 50, "Ok", () => {
+                    this.state = "play";
+                });
+                resumeButton.show();
+                break;
+            default:
+                console.log("Unknown event: " + this.event);
+                break;
+        }
+
         
-        // resume button
-        let resumeButton = new Button(width / 2 - 50, height / 2 + 50, 100, 50, "Ok", () => {
-            this.state = "play";
-        });
-        resumeButton.show();
         
     }
 
@@ -171,5 +193,72 @@ class Game {
         
         // reset line dash
         drawingContext.setLineDash([]);
+    }
+
+    addEvents() {
+        // add shops to 2 random points
+        let shopCount = 0;
+        while (shopCount < 2) {
+            let randomIndex = Math.floor(random(1, this.pointOfInterest.length - 1));
+            // cannot be start or end point
+            if (
+                this.pointOfInterest[randomIndex].info == "?") {
+                this.pointOfInterest[randomIndex].setAsShop();
+                shopCount++;
+            }
+        }
+
+        // add pirates to 2 random points
+        let pirateCount = 0;
+        while (pirateCount < 2) {
+            let randomIndex = Math.floor(random(1, this.pointOfInterest.length - 1));
+            if (
+                this.pointOfInterest[randomIndex].info == "?") {
+                this.pointOfInterest[randomIndex].setAsPirate();
+                pirateCount++;
+            }
+        }
+
+        // add lucky points to 2 random points
+        let luckyCount = 0;
+        while (luckyCount < 2) {
+            let randomIndex = Math.floor(random(1, this.pointOfInterest.length - 1));
+            if (
+                this.pointOfInterest[randomIndex].info == "?") {
+                this.pointOfInterest[randomIndex].setAsLucky();
+                luckyCount++;
+            }
+        }
+    }
+
+    pirateEvent() {
+        background(100, 0, 0);
+        fill(255);
+        textSize(30);
+        textAlign(CENTER, CENTER);
+        text("You have been attacked by space pirates!", width / 2, height / 2);
+        this.event = "wait";
+    }
+
+    shopEvent() {
+        background(0, 100, 0);
+        fill(255);
+        textSize(30);
+        textAlign(CENTER, CENTER);
+        text("You have found a shop!", width / 2, height / 2);
+        this.event = "wait";
+    }
+
+    luckyEvent() {
+        background(0, 0, 100);
+        fill(255);
+        textSize(30);
+        textAlign(CENTER, CENTER);
+        text("You have found a lucky point!", width / 2, height / 2);
+        // found random fuel and money
+        this.fuel += Math.floor(random(1, 10));
+        this.money += Math.floor(random(1, 10));
+
+        this.event = "wait";
     }
 }

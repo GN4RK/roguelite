@@ -56,24 +56,29 @@ class PointOfInterest {
 
         // if clicked and neighbor of current
         if (this.isClicked() && this.onNeighborIsCurrent()) {
+
+            if (this.state != "visited") {
+                // play event
+                this.game.state = "event";
+                this.game.event = this.info;
+            }
             this.state = "current";
             this.currentNeighbor().setState("visited");
 
-            // play event
-            this.game.state = "event";
             this.game.fuel--;
+            
         }
 
         // show info
-        if (this.info !== "") {
+        if ((this.info == "start") || (this.info == "end")) {
             fill(0, 255, 0);
             textSize(10);
             textAlign(CENTER, CENTER);
             text(this.info, this.x, this.y + 20);
         }
 
-        // show state if neighbor is current
-        if (this.onNeighborIsCurrent()) {
+        // show state if neighbor is current or if already visited
+        if (this.onNeighborIsCurrent() || this.state == "visited") {
             fill(255, 0, 0);
             textSize(10);
             textAlign(CENTER, CENTER);
@@ -112,5 +117,17 @@ class PointOfInterest {
 
     currentNeighbor() {
         return this.neighbors.find(neighbor => neighbor.isCurrent());
+    }
+
+    setAsShop() {
+        this.info = "shop";
+    }
+
+    setAsPirate() {
+        this.info = "pirate";
+    }
+
+    setAsLucky() {
+        this.info = "lucky";
     }
 }
