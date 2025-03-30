@@ -13,8 +13,9 @@ class PointOfInterest {
     }
 
     show() {
-        
-        
+        stroke(255);
+        strokeWeight(1);
+
         // if mouse is over the point, show the neighbors
         strokeWeight(2);
         stroke(255);
@@ -45,6 +46,8 @@ class PointOfInterest {
                 fill(255, 0, 0);
                 break;
         }
+
+        // draw the point
         strokeWeight(1);
         stroke(0);
         circle(this.x, this.y, 30);
@@ -59,6 +62,15 @@ class PointOfInterest {
             this.game.state = "event";
             this.game.fuel--;
 
+        }
+
+        // debug info
+        if (debug > 0) {
+            fill(255);
+            textSize(10);
+            textAlign(CENTER, CENTER);
+            text(this.state, this.x, this.y - 20);
+            text(this.neighbors.length, this.x, this.y + 20);
         }
     }
 

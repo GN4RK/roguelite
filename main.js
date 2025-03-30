@@ -1,6 +1,10 @@
 const DARKBLUE = [0, 4, 35];
+const NUMBER_OF_POINTS = 10;
+const NEIGHBOR_DISTANCE = 250;
 
 let game;
+
+let debug = 1;
 
 function setup() {
     createCanvas(800, 600);
