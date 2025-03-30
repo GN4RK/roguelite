@@ -1,6 +1,6 @@
 // class pointOfInterest
 class PointOfInterest {
-    constructor(game, x, y, info = "") {
+    constructor(game, x, y, info = "?") {
         this.x = x;
         this.y = y;
         this.neighbors = [];
@@ -62,7 +62,6 @@ class PointOfInterest {
             // play event
             this.game.state = "event";
             this.game.fuel--;
-
         }
 
         // show info
@@ -73,12 +72,13 @@ class PointOfInterest {
             text(this.info, this.x, this.y + 20);
         }
 
-        // debug info
-        if (debug > 0) {
-            fill(255);
+        // show state if neighbor is current
+        if (this.onNeighborIsCurrent()) {
+            fill(255, 0, 0);
             textSize(10);
             textAlign(CENTER, CENTER);
             text(this.state, this.x, this.y - 20);
+            text(this.info, this.x, this.y + 20);
         }
     }
 
