@@ -23,8 +23,8 @@ class Game {
         textAlign(CENTER, CENTER);
         text("Generating...", width / 2, height / 2);
     
-        let start = new PointOfInterest(this, 50, 100);
-        let end = new PointOfInterest(this, width - 50, height - 50);
+        let start = new PointOfInterest(this, 50, 100, "start");
+        let end = new PointOfInterest(this, width - 50, height - 50, "end");
         start.setState("current");
         this.pointOfInterest = [
             start,
@@ -112,15 +112,6 @@ class Game {
         this.buttonRegenerate.show();
 
         this.checkEnd();
-
-        // debug info
-        if (debug > 0) {
-            fill(255);
-            textSize(10);
-            textAlign(CENTER, CENTER);
-            text("Fuel: " + this.fuel, width - 100, height - 20);
-            text("Points: " + this.pointOfInterest.length, width - 100, height - 40);
-        }
     }
 
     menu() {

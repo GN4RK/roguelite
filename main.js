@@ -4,7 +4,7 @@ const NEIGHBOR_DISTANCE = 250;
 
 let game;
 
-let debug = 1;
+let debug = 0;
 
 function setup() {
     createCanvas(800, 600);

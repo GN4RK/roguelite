@@ -1,11 +1,12 @@
 // class pointOfInterest
 class PointOfInterest {
-    constructor(game, x, y, neighbors = []) {
+    constructor(game, x, y, info = "") {
         this.x = x;
         this.y = y;
-        this.neighbors = neighbors;
+        this.neighbors = [];
         this.state = "unvisited";
         this.game = game;
+        this.info = info;
     }
 
     addNeighbor(neighbor) {
@@ -64,13 +65,20 @@ class PointOfInterest {
 
         }
 
+        // show info
+        if (this.info !== "") {
+            fill(0, 255, 0);
+            textSize(10);
+            textAlign(CENTER, CENTER);
+            text(this.info, this.x, this.y + 20);
+        }
+
         // debug info
         if (debug > 0) {
             fill(255);
             textSize(10);
             textAlign(CENTER, CENTER);
             text(this.state, this.x, this.y - 20);
-            text(this.neighbors.length, this.x, this.y + 20);
         }
     }
 
