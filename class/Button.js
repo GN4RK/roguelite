@@ -7,7 +7,7 @@ class Button {
         this.h = h;
         this.text = text;
         this.onClick = onClick;
-        this.state = "waiting";
+        this.clickState = "waiting";
     }
   
     show() {
@@ -17,16 +17,16 @@ class Button {
         textSize(20);
         textAlign(CENTER, CENTER);
         text(this.text, this.x + this.w / 2, this.y + this.h / 2);
-        if (this.state == "released") {
-            this.state = "waiting";
+        if (this.clickState == "released") {
+            this.clickState = "waiting";
             this.onClick();
         }
         if (this.isPressed()) {
-            this.state = "pressed";
+            this.clickState = "pressed";
         }
 
-        if (this.state == "pressed" && mouseIsPressed == false) {
-            this.state = "released";
+        if (this.clickState == "pressed" && mouseIsPressed == false) {
+            this.clickState = "released";
         }
     }
   
