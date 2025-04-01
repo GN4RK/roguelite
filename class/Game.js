@@ -14,6 +14,9 @@ class Game {
         this.buttonRegenerate = new Button(width - 200, 0, 200, 50, "Regenerate", () => {
             this.state = "generating";
         });
+        this.resumeButton = new Button(width / 2 - 50, height / 2 + 50, 100, 50, "Ok", () => {
+            this.state = "play";
+        });
     }
 
     generating() {
@@ -113,7 +116,7 @@ class Game {
 
         // HUD
         new InfoBox(0, 0, 200, 50, "Fuel: " + this.fuel).show();
-        new InfoBox(200, 0, 200, 50, "Money: " + this.money).show();
+        new InfoBox(200, 0, 200, 50, "Money: " + this.money + "$").show();
     
         // Regenerate button
         this.buttonRegenerate.show();
@@ -135,7 +138,6 @@ class Game {
 
     playEvent() {
 
-
         switch(this.event) {
             case "shop":
                 this.shopEvent();
@@ -149,17 +151,12 @@ class Game {
             case "?":
             case "wait":
                 // wait for user to click
-                let resumeButton = new Button(width / 2 - 50, height / 2 + 50, 100, 50, "Ok", () => {
-                    this.state = "play";
-                });
-                resumeButton.show();
+                this.resumeButton.show();
                 break;
             default:
                 console.log("Unknown event: " + this.event);
                 break;
         }
-
-        
         
     }
 
@@ -254,10 +251,12 @@ class Game {
         fill(255);
         textSize(30);
         textAlign(CENTER, CENTER);
-        text("You have found a lucky point!", width / 2, height / 2);
         // found random fuel and money
-        this.fuel += Math.floor(random(1, 10));
-        this.money += Math.floor(random(1, 10));
+        let foundFuel = Math.floor(random(1, 10));
+        let foundMoney = Math.floor(random(1, 10));
+        this.fuel += foundFuel;
+        this.money += foundMoney;
+        text("You have found " + foundFuel + " Fuel Units and " + foundMoney + "$", width / 2, height / 2);
 
         this.event = "wait";
     }

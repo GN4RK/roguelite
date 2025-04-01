@@ -7,6 +7,7 @@ class PointOfInterest {
         this.state = "unvisited";
         this.game = game;
         this.info = info;
+        this.clickState = "waiting";
     }
 
     addNeighbor(neighbor) {
@@ -53,9 +54,16 @@ class PointOfInterest {
         stroke(0);
         circle(this.x, this.y, 30);
 
+        if (this.isPressed() && this.onNeighborIsCurrent()) {
+            this.clickState = "pressed";
+        }
+
+        if (this.clickState == "pressed" && mouseIsPressed == false && this.onNeighborIsCurrent()) {
+            this.clickState = "released";
+        }
 
         // if clicked and neighbor of current
-        if (this.isClicked() && this.onNeighborIsCurrent()) {
+        if (this.clickState == "released" && this.onNeighborIsCurrent()) {
 
             if (this.state != "visited") {
                 // play event
@@ -67,6 +75,7 @@ class PointOfInterest {
 
             this.game.fuel--;
             
+            this.clickState = "waiting";
         }
 
         // show info
@@ -103,7 +112,7 @@ class PointOfInterest {
         this.state = state;
     }
 
-    isClicked() {
+    isPressed() {
         return (dist(this.x, this.y, mouseX, mouseY) < 15 && mouseIsPressed);
     }
 
