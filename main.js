@@ -25,6 +25,9 @@ function draw() {
         case "event":
             game.playEvent();
             break;
+        case "gameover":
+            game.gameOver();
+            break;
     }
 }
 

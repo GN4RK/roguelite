@@ -4,6 +4,7 @@ class Game {
     constructor() {
         this.state = "menu";
         this.money = 10;
+        this.health = 100;
         this.event = "";
         this.pointOfInterest = [];
         this.numberOfPoints = NUMBER_OF_POINTS;
@@ -117,11 +118,14 @@ class Game {
         // HUD
         new InfoBox(0, 0, 200, 50, "Fuel: " + this.fuel).show();
         new InfoBox(200, 0, 200, 50, "Money: " + this.money + "$").show();
+        new InfoBox(400, 0, 200, 50, "Health: " + this.health).show();
     
         // Regenerate button
         this.buttonRegenerate.show();
 
         this.checkEnd();
+        this.checkGameOver();
+
     }
 
     menu() {
@@ -133,6 +137,12 @@ class Game {
     checkEnd() {
         if (this.pointOfInterest[1].state === "current") {
             this.state = "menu";
+        }
+    }
+
+    checkGameOver() {
+        if (this.health <= 0) {
+            this.state = "gameover";
         }
     }
 
@@ -234,6 +244,11 @@ class Game {
         textSize(30);
         textAlign(CENTER, CENTER);
         text("You have been attacked by space pirates!", width / 2, height / 2);
+        // lose health and money
+        let lostHealth = Math.floor(random(1, 100));
+        let lostMoney = Math.floor(random(1, 10));
+        this.health -= lostHealth;
+        this.money -= lostMoney;
         this.event = "wait";
     }
 
@@ -259,5 +274,14 @@ class Game {
         text("You have found " + foundFuel + " Fuel Units and " + foundMoney + "$", width / 2, height / 2);
 
         this.event = "wait";
+    }
+
+    gameOver() {
+        background(0, 0, 0);
+        fill(255);
+        textSize(30);
+        textAlign(CENTER, CENTER);
+        text("Game Over", width / 2, height / 2);
+        text("You have lost all your health", width / 2, height / 2 + 50);
     }
 }
