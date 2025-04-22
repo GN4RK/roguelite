@@ -2,11 +2,15 @@ const DARKBLUE = [0, 4, 35];
 const NUMBER_OF_POINTS = 10;
 const NEIGHBOR_DISTANCE = 250;
 
+// SEED
+const SEED = 123456789;
+
 let game;
 
 let debug = 0;
 
 function setup() {
+    randomSeed(SEED);
     createCanvas(800, 600);
     game = new Game();
 }
